@@ -30,7 +30,6 @@ def analizar_foto_cnn(imagen_pil):
 
 # CARGA DE MODELOS ENTRENADOS Y DATOS DE ADOPCIÓN
 @st.cache_resource
-
 def cargar_modelos():
     modelos = {}
     archivos = {
@@ -44,7 +43,8 @@ def cargar_modelos():
         try:
             with open(archivo, 'rb') as f:
                 modelos[nombre] = pickle.load(f)
-        except: modelos[nombre] = None
+        except: 
+            modelos[nombre] = None
     return modelos
 
 @st.cache_data
@@ -52,7 +52,8 @@ def cargar_datos_adopcion():
     try:
         with open('adopcion.json', 'r', encoding='utf-8') as f:
             return json.load(f)
-    except: return []
+    except: 
+        return []
 
 def evaluar_regresion(datos, modelo):
     if modelo is None:
@@ -65,30 +66,38 @@ def evaluar_regresion(datos, modelo):
     df_input = pd.DataFrame([datos])
     return modelo.predict(df_input)[0]
 
-#PRINCIPAL
-
+# PRINCIPAL
 def main():
     modelos = cargar_modelos()
     animales = cargar_datos_adopcion()
     st.sidebar.title("🐾Menú🐾")
     opciones = ["Inicio", "Animales en adopción", "Formulario completo", "Análisis de imágenes", "Estadísticas", "Gestión de Estancia (Staff)"]
-    menu = st.sidebar.radio("Ir a:", opciones,
-                            index=opciones.index(st.session_state.menu_actual))
+    menu = st.sidebar.radio("Ir a:", opciones, index=opciones.index(st.session_state.menu_actual))
     st.session_state.menu_actual = menu
 
-    #PESTAÑAS
+    # PESTAÑAS
     if st.session_state.menu_actual == "Inicio":
         st.title("🐾 Bienvenidos a Huellitas al Rescate 🐾")
         st.image("images/inicio.png", use_container_width=True)
 
     elif st.session_state.menu_actual == "Animales en adopción":
         st.title("🐱🐶 Encuentra a tu mejor amigo 🐦🐮")
-        categorias = ["Todos", "Perro", "Gato", "Aves", "Bovinos"] #PREGUNTAR A CHANTELL MAÑANA 
+        
+        categorias = ["Todos", "Perro", "Gato", "Aves", "Bovinos"]
         tabs = st.tabs(categorias)
+        
         for i, cat in enumerate(categorias):
             with tabs[i]:
-                busqueda = animales if cat == "Todos" else [a for a in animales if cat.lower() in str(a.get('especie', '')).lower()]
-                if not busqueda: st.info(f"No hay {cat} disponibles.")
+                if cat == "Todos":
+                    busqueda = animales
+                else:
+                    busqueda = [
+                        a for a in animales
+                        if str(a.get('especie', '')).strip().lower() == cat.strip().lower()
+                    ]
+
+                if not busqueda:
+                    st.info(f"No hay {cat} disponibles.")
                 else:
                     cols = st.columns(3)
                     for idx, r in enumerate(busqueda):
@@ -102,24 +111,49 @@ def main():
                                     if os.path.exists(ruta):
                                         img_final = Image.open(ruta)
                                         break
-                                if img_final: st.image(img_final, use_container_width=True)
+                                
+                                if img_final:
+                                    st.image(img_final, use_container_width=True)
+                                else:
+                                    st.warning("Foto no disponible")
+                                    
                                 st.subheader(r.get('nombre'))
                                 st.write(f"**Raza:** {r.get('raza')} | **Edad:** {r.get('edad')}")
                                 if st.button(f"Adoptar a {r.get('nombre')}", key=f"btn_{r.get('id')}_{cat}_{idx}"):
-                                    st.session_state.menu_actual = "Formulario completo"; st.rerun()
+                                    st.session_state.menu_actual = "Formulario completo"
+                                    st.rerun()
 
     elif st.session_state.menu_actual == "Formulario completo":
         st.title("🐾Formulario de Adopción Responsable🐾")
         with st.form("form_oficial"):
             st.header("Información Personal")
             c1, c2 = st.columns(2)
-            with c1: nombre = st.text_input("Nombre completo"); dni = st.text_input("Dni/Identificación"); edad_u = st.number_input("Edad", min_value=18)
-            with c2: direccion = st.text_input("Dirección"); telefono = st.number_input("Teléfono", min_value=0); ocupacion = st.text_input("Ocupación")
+            with c1: 
+                nombre = st.text_input("Nombre completo")
+                dni = st.text_input("Dni/Identificación")
+                edad_u = st.number_input("Edad", min_value=18)
+            with c2: 
+                direccion = st.text_input("Dirección")
+                telefono = st.number_input("Teléfono", min_value=0)
+                ocupacion = st.text_input("Ocupación")
+            
             st.header("Entorno Familiar")
             c3, c4 = st.columns(2)
-            with c3: tipo_v = st.selectbox("Tipo de vivienda", ["Casa", "Apartamento", "Finca/Otro"]); propiedad = st.radio("La propiedad es:", ["Propia", "Alquilada"]); permiso = st.radio("¿Tiene permiso?", ["Si", "No"]) if propiedad == "Alquilada" else "Si"
+            with c3: 
+                tipo_v = st.selectbox("Tipo de vivienda", ["Casa", "Apartamento", "Finca/Otro"])
+                propiedad = st.radio("La propiedad es:", ["Propia", "Alquilada"])
+                if propiedad == "Alquilada":
+                    permiso = st.radio("¿Tiene permiso?", ["Si", "No"])
+                else:
+                    permiso = "Si"
 
-            with c4: personas = st.slider("Personas en casa", 0, 20, 1); ninos = st.radio("¿Hay niños?", ["No", "Si"]); cant_ninos = st.slider("¿Cuantos?", 0, 10, 0) if ninos == "Si" else 0
+            with c4: 
+                personas = st.slider("Personas en casa", 0, 20, 1)
+                ninos = st.radio("¿Hay niños?", ["No", "Si"])
+                if ninos == "Si":
+                    cant_ninos = st.slider("¿Cuantos?", 0, 10, 0)
+                else:
+                    cant_ninos = 0
 
             solo = st.radio("¿El animal estará solo?", ["No", "Si"])
             entrenador = st.radio("¿Invertirá en un entrenador en caso de que la mascota desarrolle conductas inapropiadas?", ["Sí", "No"])
@@ -131,16 +165,21 @@ def main():
                 if aceptar and firma:
                     datos = {"alquilada": propiedad, "permiso": permiso, "solo": solo, "entrenador": entrenador, "adaptacion": adaptacion}
                     score = evaluar_regresion(datos, modelos['regresion'])
-                    if score > 85: st.success(f"{score:.1f}% Perfil apto ✅")
-                    elif score > 65: st.warning(f"{score:.1f}% En revisión ⚠️")
-                    else: st.error(f"{score:.1f}% No calificado")
-                else: st.error("Firma y acepta los términos.")
+                    if score > 85: 
+                        st.success(f"{score:.1f}% Perfil apto ✅")
+                    elif score > 65: 
+                        st.warning(f"{score:.1f}% En revisión ⚠️")
+                    else: 
+                        st.error(f"{score:.1f}% No calificado")
+                else: 
+                    st.error("Firma y acepta los términos.")
 
     elif st.session_state.menu_actual == "Análisis de imágenes":
         st.title("🐾Verificación de Imagen de Rescate🐾")
-        subido = st.file_uploader("Sube la foto...", type=["jpg", "jpeg", "png"]) #Aceptar cualquier formato
+        subido = st.file_uploader("Sube la foto...", type=["jpg", "jpeg", "png"])
         if subido:
-            img = Image.open(subido); st.image(img, width=400)
+            img = Image.open(subido)
+            st.image(img, width=400)
             est, msg = analizar_foto_cnn(img)
             if est == "PERFECTA": st.success(msg)
             elif est == "MUCHA_LUZ": st.error(msg)
@@ -152,18 +191,22 @@ def main():
             df_stats = pd.DataFrame(animales)
             df_stats['Horas Solo'] = np.random.choice([2, 4, 8, 10], len(df_stats))
             df_stats['Presencia Niños'] = np.random.choice(['Si', 'No'], len(df_stats))
+            
             def clasificar_riesgo(row):
-                if row['Horas Solo'] > 8 and "Cachorro" in row['edad']: return "Alto Riesgo 🔴"
+                if row['Horas Solo'] > 8 and "Cachorro" in row['edad']: 
+                    return "Alto Riesgo 🔴"
                 return "Bajo Riesgo 🟢"
+            
             df_stats['Clasificación Riesgo'] = df_stats.apply(clasificar_riesgo, axis=1)
             st.dataframe(df_stats[['nombre', 'especie', 'raza', 'edad', 'Clasificación Riesgo']], use_container_width=True)
             st.metric("Total Animales", len(animales))
+
     elif st.session_state.menu_actual == "Gestión de Estancia (Staff)":
         st.title("🛠️ Gestión de Estancia para el Staff")
         st.markdown("### Predecir tiempo de salida y estrategias (Austin Animal Center)")
-       
+        
         col_form, col_res = st.columns([1, 1])
-       
+        
         with col_form:
             st.subheader("🐾Datos del Animal🐾")
             with st.container(border=True):
@@ -196,7 +239,5 @@ def main():
             
                     st.info("📸**Tip de Marketing:** Asegura una foto de alta calidad en la pestaña 'Análisis de Imágenes'. 🐾Asi aumentaremos las oportunidades de acogida de nuestro amigo peludo🐾.")
 
-
 if __name__ == "__main__":
-
     main()

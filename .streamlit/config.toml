@@ -1,6 +1,6 @@
 [theme]
 primaryColor = "#ee3800"          # Color de botones y detalles
-backgroundColor = "#9df7e0"       # Color del fondo principal
-secondaryBackgroundColor = "#7edfd7d7" # Color de la barra lateral (sidebar)
+backgroundColor = "#cffdf2"       # Color del fondo principal
+secondaryBackgroundColor = "#76c2bbd7" # Color de la barra lateral (sidebar)
 textColor = "#000000"             # Color de la letra
 font = "Roboto"               # Estilo de fuente
