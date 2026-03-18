@@ -1,0 +1,83 @@
+[
+    {
+        "id": 1,
+        "nombre": "Tokito",
+        "especie": "Perro",
+        "raza": "Galgo",
+        "edad": "Cachorro / Nacimiento: 01/2026",
+        "historia": "Rescatado de una zona industrial. Es muy dulce y tímido.",
+        "foto": "images/Tokito_Galgo.jpeg"
+    },
+    {
+        "id": 2,
+        "nombre": "Aday",
+        "especie": "Perro",
+        "raza": "Pastor Alemán",
+        "edad": "3 años/ Nacimiento: 01/2023",
+        "historia": "Encontrado en la carretera. Le encanta correr.",
+        "foto": "images/Aday_Pastor.jpeg"
+    },
+     {
+        "id": 3,
+        "nombre": "Yuta",
+        "especie": "Gato",
+        "raza": "Calico",
+        "edad": "5 meses",
+        "historia": "Encontrado en un parque. Le encanta jugar con pelotas de lana.",
+        "foto": "images/Yuta_Calico.jpeg"
+    },
+     {
+        "id": 4,
+        "nombre": "Rayito",
+        "especie": "Gato",
+        "raza": "Mestizo",
+        "edad": "5 meses/Nacimiento: 11/2025",
+        "historia": "Nacido en el refugio. Es muy juguetón y dormilón.",
+        "foto": "images/Rayito_Mestizo.jpeg"
+    },
+     {
+        "id": 5,
+        "nombre": "Michi",
+        "especie": "Gato",
+        "raza": "Tabby",
+        "edad": "3 años/ Nacimiento: 09/2023",
+        "historia": "Rescatado de vivienda violenta. Es muy tranquilo y cariñoso.",
+        "foto": "images/Michi_Tabby.jpeg"
+    },
+    {
+        "id": 6,
+        "nombre": "Lola",
+        "especie": "Bovinos",
+        "raza": "Bovina",
+        "edad": "Nacimiento: 12/2025",
+        "historia": "Rescatada de accidente en carretera. Le encanta estar con otros animales.",
+        "foto": "images/Lola_Bovina.jpeg"
+    },
+    {
+        "id": 7,
+        "nombre": "Blue",
+        "especie": "Aves",
+        "raza": "Canario",
+        "edad": "Pájaro adulto/Nacimiento: 01/2025",
+        "historia": "Encontrado en un parque con ala lastimada. Le encanta comer pipas.",
+        "foto": "images/Blue_Canario.jpeg"
+    },
+    {
+        "id": 8,
+        "nombre": "Simba",
+        "especie": "Perro",
+        "raza": "Golden Mestizo",
+        "edad": "Cachorro/Nacimiento: 11/2025",
+        "historia": "Rescatado en fábrica abandonada. Muy amistoso y juguetón.",
+        "foto": "images/Simba_Golden.jpeg"
+    },
+    {
+        "id": 9,
+        "nombre": "Hulk",
+        "especie": "Aves",
+        "raza": "Amazona Oratrix",
+        "edad": "10 meses",
+        "historia": "Rescatado de un entorno urbano. Le encanta esconderse detras de objetos.",
+        "foto": "images/Hulk_Amazona.jpeg"
+    }
+]
