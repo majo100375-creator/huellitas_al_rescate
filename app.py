@@ -7,7 +7,6 @@ import os
 from PIL import Image
 from datetime import date
 
-# PÁGINA
 st.set_page_config(
     page_title="Huellitas al rescate",
     page_icon="🐾",
@@ -17,7 +16,6 @@ st.set_page_config(
 if 'menu_actual' not in st.session_state:
     st.session_state.menu_actual = "Inicio"
 
-#RED NEURONAL PARA ANALIZAR FOTOS
 def analizar_foto_cnn(imagen_pil):
     img_array = np.array(imagen_pil.convert('L'))
     brillo_promedio = np.mean(img_array)
@@ -28,7 +26,6 @@ def analizar_foto_cnn(imagen_pil):
     else:
         return "PERFECTA", "Excelente, Nuestro amigo encontrará una nueva familia muy pronto ❤️."
 
-# CARGA DE MODELOS ENTRENADOS Y DATOS DE ADOPCIÓN
 @st.cache_resource
 def cargar_modelos():
     modelos = {}
@@ -67,7 +64,6 @@ def evaluar_regresion(datos, modelo):
     df_input = pd.DataFrame([datos])
     return modelo.predict(df_input)[0]
 
-# PRINCIPAL
 def main():
     modelos = cargar_modelos()
     animales = cargar_datos_adopcion()
@@ -76,7 +72,6 @@ def main():
     menu = st.sidebar.radio("Ir a:", opciones, index=opciones.index(st.session_state.menu_actual))
     st.session_state.menu_actual = menu
 
-    # PESTAÑAS
     if st.session_state.menu_actual == "Inicio":
         st.title("🐾 Bienvenidos a Huellitas al Rescate 🐾")
         st.image("images/inicio.png", use_container_width=True)
