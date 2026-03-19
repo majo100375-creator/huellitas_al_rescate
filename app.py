@@ -17,7 +17,7 @@ st.set_page_config(
 if 'menu_actual' not in st.session_state:
     st.session_state.menu_actual = "Inicio"
 
-# SISTEMA DE RED NEURONAL PARA ANALIZAR FOTOS
+#RED NEURONAL PARA ANALIZAR FOTOS
 def analizar_foto_cnn(imagen_pil):
     img_array = np.array(imagen_pil.convert('L'))
     brillo_promedio = np.mean(img_array)
@@ -46,6 +46,7 @@ def cargar_modelos():
         except: 
             modelos[nombre] = None
     return modelos
+modelos = cargar_modelos()
 
 @st.cache_data
 def cargar_datos_adopcion():
@@ -166,11 +167,11 @@ def main():
                     datos = {"alquilada": propiedad, "permiso": permiso, "solo": solo, "entrenador": entrenador, "adaptacion": adaptacion}
                     score = evaluar_regresion(datos, modelos['regresion'])
                     if score > 85: 
-                        st.success(f"{score:.1f}% Perfil apto ✅")
+                        st.success(f"{score:.1f}% ¡FELICIDADES! Estás una huella más cerca de tener un nuevo amigo.✅")
                     elif score > 65: 
-                        st.warning(f"{score:.1f}% En revisión ⚠️")
+                        st.warning(f"{score:.1f}% Nos falta información, contáctaremos contigo⚠️")
                     else: 
-                        st.error(f"{score:.1f}% No calificado")
+                        st.error(f"{score:.1f}% Lamentablemente no cumples con los requisitos mínimos para adoptar. 😔")
                 else: 
                     st.error("Firma y acepta los términos.")
 
@@ -234,7 +235,7 @@ def main():
 
                     if motivo == "Enfermo (Sick)":
                         st.error("🚨 **Protocolo Médico:** Priorizar casa de acogida para evitar contagios y estrés.")
-                    if edad_m > 60:
+                    if edad_m > 95:
                         st.warning("👴 **Perfil Senior:** Se recomienda 'Senior for Senior' (descuento en tasas).")
             
                     st.info("📸**Tip de Marketing:** Asegura una foto de alta calidad en la pestaña 'Análisis de Imágenes'. 🐾Asi aumentaremos las oportunidades de acogida de nuestro amigo peludo🐾.")
