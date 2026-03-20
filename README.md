@@ -60,6 +60,9 @@ Se abrirá automáticamente una pestaña en tu navegador con la aplicación func
 
 *Conceptos de IA usados* -> Datos curiosos 
 
+**IMPORTANTE**
+#En el área de "Lanzamientos" encontrarás el Zip de los documentos informativos y el Zip de la primera versión de Huellitas al rescate.
+
 Regresión: Lo usamos para calcular el "score" de adopción y los días de estancia. Fórmula matemática que predice un número basado en variables.
 
 Clasificación: Ayuda a decidir si una adopción es de "Alto" o "Bajo" riesgo según las estadísticas e historial de adopción subyacentes.
